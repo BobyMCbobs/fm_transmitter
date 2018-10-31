@@ -21,5 +21,24 @@ transmitter.o: transmitter.cpp transmitter.h
 main.o: main.cpp
 	$(CPP) $(CFLAGS) -c main.cpp
 
+install:
+	@mkdir -p $(DESTDIR)/usr/bin
+	@cp fm_transmitter $(DESTDIR)/usr/bin
+
+prep-deb:
+	make
+	@mkdir -p deb-build/fm-transmitter
+	@cp -p -r support/debian/. deb-build/fm-transmitter/debian
+	@mkdir -p deb-build/fm-transmitter/debian/fm-transmitter
+	@make DESTDIR=deb-build/fm-transmitter/debian/fm-transmitter install
+
+deb-pkg:
+	make BUILDMODE=$(BUILDMODE) prep-deb
+	@cd deb-build/fm-transmitter/debian && debuild -b
+
+deb-src:
+	make BUILDMODE=$(BUILDMODE) prep-deb
+	@cd deb-build/fm-transmitter/debian && debuild -S
+
 clean:
-	rm *.o
+	rm -rf *.o deb-build

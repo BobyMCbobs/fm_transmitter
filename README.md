@@ -6,31 +6,36 @@ This project uses the general clock output to produce frequency modulated radio 
 
 ## New features
 
-* works on RPi 1, 2 and 3
+* works on Raspberry Pi models: 1, 2 and 3
 * reads mono and stereo files
 * reads data from stdin
 * based on threads
 * Mp3 Support added :) (Thanks to [**CodyJHeiser**](https://github.com/CodyJHeiser "CodyJHeiser"),Source: [https://github.com/CodyJHeiser/PiStation](https://github.com/CodyJHeiser/PiStation))
 
-## How to use it
+## Dependencies
+There are no dependencies, unless you want MP3 support, then: `libmp3lame-dev ffmpeg`
 
-First compile this project, use commands below:
-```
-sudo apt-get install make gcc g++
-make
-``` 
-Now, you can use it directly by typing:
-```
-sudo ./fm_transmitter [-f frequency] [-r] filename
-```
+## Building
+Build dependencies: `make gcc g++`  
+
+To compile run:  
+`make`  
+
+## Usage
+Now that it's built, you can use it directly by typing:
+`sudo ./fm_transmitter [-f frequency] [-r] filename`
 You can open WAVE files or read audio data from stdin, i.e.:
 ```
 sox star_wars.wav -r 22050 -c 1 -b 16 -t wav - | sudo ./fm_transmitter -f 100.6 -
 arecord -D hw:1,0 -c1 -d 0 -r 22050 -f S16_LE | sudo ./fm_transmitter -f 100.6 -
 ```
 Broadcast from a usb microphone (see arecord manual page for config)
+`arecord -d0 -c2 -f S16_LE -r 22050 -twav -D copy | sudo ./fm_transmitter -f 103.3 - `
 
-<code>arecord -d0 -c2 -f S16_LE -r 22050 -twav -D copy | sudo ./fm_transmitter -f 103.3 - </code>
+## Packaging
+*UNFINISHED*  
+deb: `make deb-pkg`  
+deb source: `deb-src`  
 
 ## Steps for playing _mp3_ files:
 
@@ -58,18 +63,17 @@ sudo make -j4
 sudo make install
 sudo ldconfig
 ```
-**Note--** use <code>sudo ./configure --arch=armel --target-os=linux --enable-gpl --enable-libx264 --enable-nonfree</code> for devices prior to ***RaspberryPi 2 model B+***.
+
+**Note--** use `sudo ./configure --arch=armel --target-os=linux --enable-gpl --enable-libx264 --enable-nonfree` for devices prior to ***RaspberryPi 2 model B+***.
 
 _This Process will take some time , Have patience :)_
 
 _Also support for other file types can be added , you can add these support during compiling the ffmpeg_
 ## How to play _mp3_ files :
 
-<code>sudo python ./PiStation.py example.mp3(or wav)</code>
-
-or
-
-<code>sudo python ./PiStation.py -f [desired frequency] [filename]</code>
+`sudo python ./PiStation.py example.mp3(or wav)`  
+or  
+`sudo python ./PiStation.py -f [desired frequency] [filename]`  
 
 --------------
 About the Program and What it Does

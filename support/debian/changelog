@@ -1,0 +1,5 @@
+fm-transmitter (1.0.0) stretch; urgency=medium
+
+  * Initial debianisation
+
+ -- Caleb Woodbine <calebwoodbine.public@gmail.com>  Tue, 30 Oct 2018 19:01:49 +1300
